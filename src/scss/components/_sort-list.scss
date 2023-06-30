@@ -1,0 +1,144 @@
+.sort-list {
+	margin: 100px 0;
+	transition: all .3s linear;
+
+	&__groups {
+		transition: all .3s linear;
+	}
+
+	&__groups-item {
+		height: 49px;
+		margin-top: -1px;
+		overflow: hidden;
+		transition: all .2s linear;
+		background: #fff;
+
+		&.active {
+			height: auto;
+		}
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&.ui-sortable-helper {
+			height: 49px !important;
+			box-shadow: 0 3px 16px rgba(0, 102, 255, 0.7);
+		}
+	}
+
+	&__groups-item-content {
+		display: flex;
+		align-items: center;
+		height: 49px;
+		justify-content: center;
+		padding: 13px 0 13px 16px;
+		border: 1px solid var(--border);
+		font-weight: 500;
+
+		.sort-list__groups-item.active & {
+			border-bottom: 1px solid var(--border);
+		}
+	}
+
+	&__groups-item-text {
+		cursor: default;
+	}
+
+	&__groups-items {
+		opacity: 0;
+		visibility: hidden;
+		transition: all .2s linear;
+
+		.sort-list__groups-item.active & {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+
+	&__item {
+		background: #fff;
+
+		&.ui-sortable-helper {
+			box-shadow: 0 3px 16px rgba(0, 102, 255, 0.7);
+		}
+	}
+
+	&__item-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 22px;
+		height: 22px;
+		margin-right: 14px;
+		border-radius: 50%;
+		border: 1px solid var(--border-inner);
+		fill: var(--blue);
+		transition: all .2s ease-in-out;
+		cursor: pointer;
+
+		.sort-list__groups-item.active & {
+			transform: rotate(180deg);
+		}
+
+		svg {
+			width: 8px;
+			height: 5px;
+		}
+	}
+
+	&__item-content {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: calc(100% - 16px);`
+		margin-left: 16px;
+		padding: 8px 0 8px 15px;
+		border: 1px solid var(--border-inner);
+		border-top: 0;
+		font-size: 13px;
+		font-weight: 400;
+		height: 35px;
+	}
+
+	&__item-text {
+		cursor: default;
+	}
+
+	&__item-sort-icon {
+		width: 38px;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: auto;
+		fill: var(--icons-inner);
+		cursor: grab;
+
+		svg {
+			display: block;
+			width: 8px;
+			height: 15px;
+		}
+
+			.ui-sortable-helper & {
+			fill: var(--blue);
+		}
+	}
+}
+
+.sortable-placeholder {
+	height: 5px;
+	background: #0066FF;
+}
+
+.sort-list__groups-items .sortable-placeholder {
+	width: calc(100% - 16px);
+	margin-left: 16px;
+}
+
+.sort-list__groups-item.disabled,
+.sort-list__item.disabled {
+	pointer-events: none;
+	opacity: 0.3;
+}

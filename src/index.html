@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru" class="page">
+
+@include('partials/head.html')
+
+<body class="page__body">
+<div class="site-container">
+    @include('partials/header.html')
+    <main class="main">
+        <div class="container">
+            <div class="sort-list">
+                <div class="sort-list__groups" id="sortable-groups" data-bind="foreach:categories">
+                    <div class="sort-list__groups-item js-sort-item" data-bind="css: activeTab">
+
+                        <!-- Acc button -->
+                        <div
+                                class="sort-list__groups-item-content js-sort-button"
+                                aria-expanded="true">
+                            <i class="sort-list__item-arrow">
+                                <svg viewBox="0 0 8 5">
+                                    <use xlink:href="/img/sprite.svg#arrow"></use>
+                                </svg>
+                            </i>
+                            <div class="sort-list__groups-item-text" data-bind="text: name"></div>
+                            <div class="sort-list__item-sort-icon">
+                                <svg viewBox="0 0 8 16">
+                                    <use xlink:href="/img/sprite.svg#sort-icon"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Acc content -->
+                        <div class="sort-list__groups-items" data-bind="foreach:children">
+                            <div class="sort-list__item">
+                                <div class="sort-list__item-content">
+                                    <div class="sort-list__item-text" data-bind="text: cname"></div>
+                                    <div class="sort-list__item-sort-icon">
+                                        <svg viewBox="0 0 8 16">
+                                            <use xlink:href="/img/sprite.svg#sort-icon"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js"></script>
+    <script>
+		const dataAccordion = [
+			{
+				id: 1,
+				name: "Обязательные для всех",
+                activeTab: "active",
+				children: [
+					{
+						cname: "Инн"
+					},
+					{
+						cname: "Паспорт"
+					}
+				]
+			},
+			{
+				id: 2,
+				name: "Обязательные для трудоустройства",
+				activeTab: "",
+				children: [
+					{
+						cname: "Документ 1"
+					},
+					{
+						cname: "Документ 2"
+					}
+				]
+			},
+			{
+				id: 2,
+				name: "Специальные",
+				activeTab: "",
+				children: [
+					{
+						cname: "Специальные 1"
+					},
+					{
+						cname: "Специальные 2"
+					}
+				]
+			},
+		];
+
+		function GroupItemViewModel(data){
+			let self = this;
+			self.name = ko.observable(data.name);
+			self.activeTab = ko.observable(data.activeTab);
+			self.children = ko.observableArray([]);
+
+			// create a new instance of PageRowItemViewModel for each data.pageRows
+			self.children($.map(data.children, function (item) {
+				return new ChildItemViewModel(item);
+			}));
+		}
+
+		function ChildItemViewModel(data) {
+			let self = this;
+			self.cname = ko.observable(data.cname);
+		}
+
+		function ViewModel(data){
+			let self = this;
+			// Define an observableArray
+			self.categories = ko.observableArray([]);
+
+			self.categories($.map(dataAccordion, function (item) {
+				return new GroupItemViewModel(item);
+			}));
+        }
+		_vm  = new ViewModel(dataAccordion);
+		ko.applyBindings(_vm );
+
+		$("#sortable-groups").sortable({
+			helper: function(event, itemDom){
+				let helper = $(itemDom).clone();
+				helper.find(".sort-list__groups-items").remove();
+				return helper[0];
+			},
+			start: function( event, ui ) {
+				$(ui.item[0])
+					.show()
+					.addClass("disabled");
+			},
+			stop: function( event, ui ) {
+				$(ui.item[0])
+					.removeClass("disabled");
+			},
+			placeholder: "sortable-placeholder",
+			cursor: "none",
+			handle: ".sort-list__item-sort-icon"
+		});
+
+		$(".sort-list__groups-items").sortable({
+			helper: function(event, itemDom){
+				let helper = $(itemDom).clone();
+				return helper[0];
+			},
+			start: function( event, ui ) {
+				$(ui.item[0])
+					.show()
+					.addClass("disabled");
+			},
+			stop: function( event, ui ) {
+				$(ui.item[0])
+					.removeClass("disabled");
+			},
+			connectWith: ".sort-list__groups-items",
+			placeholder: "sortable-placeholder",
+			handle: ".sort-list__item-sort-icon",
+			cursor: "none"
+		});
+    </script>
+    @include('partials/footer.html')
+</div>
+</body>
+
+</html>

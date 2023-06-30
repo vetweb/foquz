@@ -1,0 +1,17 @@
+// если вы хотите использовать sass-переменные - удалите root
+// colors
+:root {
+  // base
+  --font-family: "Fira", sans-serif;
+  --content-width: 1190px;
+  --container-offset: 15px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+
+  // colors
+  --border: #DFE4EF;
+  --border-inner: #D3D8DF;
+  --primary: #000000;
+  --blue: #0066FF;
+  --icons-inner: #8E9CBB;
+  --shadow: rgba(0, 102, 255, 0.7);
+}
